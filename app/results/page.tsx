@@ -48,6 +48,7 @@ export default function ResultsPage() {
   const [results, setResults] = useState<{ count: number; found: string[] } | null>(null)
   const [titleInfo, setTitleInfo] = useState<{ title: string; description: string } | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isNavigating, setIsNavigating] = useState(false)
 
   useEffect(() => {
     // Give the store a moment to hydrate
@@ -64,22 +65,27 @@ export default function ResultsPage() {
   }, [userResponse, currentEmail])
 
   const handlePlayAgain = () => {
-    resetGame()
+    setIsNavigating(true)
     router.push('/play')
+    // Reset after navigation starts, the play page will call startGame anyway
+    setTimeout(() => resetGame(), 100)
   }
 
   const handleHome = () => {
-    resetGame()
+    setIsNavigating(true)
     router.push('/')
+    setTimeout(() => resetGame(), 100)
   }
 
   const timeUsed = 60 - timeRemaining
   const wordCount = userResponse ? userResponse.split(/\s+/).filter(w => w.length > 0).length : 0
 
-  if (isLoading) {
+  if (isLoading || isNavigating) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-pulse text-muted-foreground">Loading results...</div>
+        <div className="animate-pulse text-muted-foreground">
+          {isNavigating ? 'Starting new game...' : 'Loading results...'}
+        </div>
       </main>
     )
   }
