@@ -48,7 +48,7 @@ export default function ResultsPage() {
   const [results, setResults] = useState<{ count: number; found: string[] } | null>(null)
   const [titleInfo, setTitleInfo] = useState<{ title: string; description: string } | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [isNavigating, setIsNavigating] = useState(false)
+  const [navigatingTo, setNavigatingTo] = useState<'play' | 'home' | null>(null)
 
   useEffect(() => {
     // Give the store a moment to hydrate
@@ -65,14 +65,14 @@ export default function ResultsPage() {
   }, [userResponse, currentEmail])
 
   const handlePlayAgain = () => {
-    setIsNavigating(true)
+    setNavigatingTo('play')
     router.push('/play')
     // Reset after navigation starts, the play page will call startGame anyway
     setTimeout(() => resetGame(), 100)
   }
 
   const handleHome = () => {
-    setIsNavigating(true)
+    setNavigatingTo('home')
     router.push('/')
     setTimeout(() => resetGame(), 100)
   }
@@ -80,11 +80,11 @@ export default function ResultsPage() {
   const timeUsed = 60 - timeRemaining
   const wordCount = userResponse ? userResponse.split(/\s+/).filter(w => w.length > 0).length : 0
 
-  if (isLoading || isNavigating) {
+  if (isLoading || navigatingTo) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-pulse text-muted-foreground">
-          {isNavigating ? 'Starting new game...' : 'Loading results...'}
+          {navigatingTo === 'play' ? 'Starting new game...' : navigatingTo === 'home' ? 'Returning home...' : 'Loading results...'}
         </div>
       </main>
     )
