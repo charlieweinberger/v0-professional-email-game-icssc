@@ -23,7 +23,7 @@ export function EmailComposer({ to, subject, value, onChange, onSend, disabled }
   }, [])
 
   return (
-    <div className="bg-card rounded-t-lg border border-border shadow-2xl overflow-hidden flex flex-col h-full max-h-[500px]">
+    <div className="bg-card rounded-lg border border-border shadow-2xl overflow-hidden flex flex-col h-full">
       {/* Header */}
       <div className="bg-muted/50 px-4 py-3 flex items-center justify-between border-b border-border">
         <h3 className="font-medium text-sm text-foreground">New Message</h3>
