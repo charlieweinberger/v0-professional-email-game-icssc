@@ -47,14 +47,21 @@ export default function ResultsPage() {
   const { currentEmail, userResponse, timeRemaining, resetGame } = useGameStore()
   const [results, setResults] = useState<{ count: number; found: string[] } | null>(null)
   const [titleInfo, setTitleInfo] = useState<{ title: string; description: string } | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    if (userResponse) {
-      const buzzwordResults = countBuzzwords(userResponse)
-      setResults(buzzwordResults)
-      setTitleInfo(getTitle(buzzwordResults.count))
-    }
-  }, [userResponse])
+    // Give the store a moment to hydrate
+    const timer = setTimeout(() => {
+      if (userResponse || currentEmail) {
+        const buzzwordResults = countBuzzwords(userResponse || '')
+        setResults(buzzwordResults)
+        setTitleInfo(getTitle(buzzwordResults.count))
+      }
+      setIsLoading(false)
+    }, 100)
+    
+    return () => clearTimeout(timer)
+  }, [userResponse, currentEmail])
 
   const handlePlayAgain = () => {
     resetGame()
@@ -68,6 +75,14 @@ export default function ResultsPage() {
 
   const timeUsed = 60 - timeRemaining
   const wordCount = userResponse ? userResponse.split(/\s+/).filter(w => w.length > 0).length : 0
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-pulse text-muted-foreground">Loading results...</div>
+      </main>
+    )
+  }
 
   if (!currentEmail || !results || !titleInfo) {
     return (
