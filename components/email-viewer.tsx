@@ -1,6 +1,6 @@
 'use client'
 
-import { Mail, Star, Reply, Forward, MoreHorizontal, Archive, Trash2, Clock } from 'lucide-react'
+import { MoreHorizontal } from 'lucide-react'
 import type { Email } from '@/lib/game-store'
 
 interface EmailViewerProps {
@@ -9,76 +9,43 @@ interface EmailViewerProps {
 
 export function EmailViewer({ email }: EmailViewerProps) {
   return (
-    <div className="bg-card rounded-lg border border-border shadow-2xl overflow-hidden flex flex-col h-full">
-      {/* Email header toolbar */}
-      <div className="px-4 py-3 border-b border-border flex items-center justify-between bg-muted/50">
-        <div className="flex items-center gap-1">
-          <button className="p-2 hover:bg-muted rounded text-muted-foreground hover:text-foreground transition-colors">
-            <Archive className="w-4 h-4" />
-          </button>
-          <button className="p-2 hover:bg-muted rounded text-muted-foreground hover:text-foreground transition-colors">
-            <Trash2 className="w-4 h-4" />
-          </button>
-          <button className="p-2 hover:bg-muted rounded text-muted-foreground hover:text-foreground transition-colors">
-            <Mail className="w-4 h-4" />
-          </button>
-          <button className="p-2 hover:bg-muted rounded text-muted-foreground hover:text-foreground transition-colors">
-            <Clock className="w-4 h-4" />
-          </button>
-        </div>
-        <div className="flex items-center gap-1">
-          <button className="p-1.5 hover:bg-muted rounded text-muted-foreground hover:text-foreground transition-colors">
-            <MoreHorizontal className="w-4 h-4" />
-          </button>
-        </div>
+    <div className="bg-card rounded-lg border border-border shadow-lg">
+      {/* Header */}
+      <div className="bg-muted/50 px-4 py-3 flex items-center justify-between border-b border-border">
+        <h3 className="font-medium text-sm text-foreground">Original Email</h3>
+        <button className="p-1.5 hover:bg-muted rounded text-muted-foreground hover:text-foreground transition-colors">
+          <MoreHorizontal className="w-4 h-4" />
+        </button>
       </div>
 
-      {/* Email metadata fields */}
-      <div className="divide-y divide-border border-b border-border">
-        <div className="px-4 py-2 flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">From</span>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full bg-destructive/20 flex items-center justify-center">
-              <span className="text-xs font-medium text-destructive">
-                {email.from.charAt(0).toUpperCase()}
-              </span>
-            </div>
-            <span className="text-sm text-foreground">{email.from}</span>
-          </div>
+      {/* Email fields */}
+      <div className="divide-y divide-border text-sm">
+        <div className="px-4 py-2.5 flex items-center gap-3">
+          <span className="text-muted-foreground w-14 shrink-0">From</span>
+          <span className="text-foreground">{email.from}</span>
         </div>
-        <div className="px-4 py-2 flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">To</span>
-          <span className="text-sm text-foreground">{email.to}</span>
+        <div className="px-4 py-2.5 flex items-center gap-3">
+          <span className="text-muted-foreground w-14 shrink-0">To</span>
+          <span className="text-foreground">{email.to}</span>
         </div>
-        <div className="px-4 py-2 flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">Subject</span>
-          <span className="text-sm text-foreground font-medium">{email.subject}</span>
+        <div className="px-4 py-2.5 flex items-center gap-3">
+          <span className="text-muted-foreground w-14 shrink-0">Subject</span>
+          <span className="text-foreground">{email.subject}</span>
         </div>
       </div>
 
       {/* Email body */}
-      <div className="flex-1 p-4 overflow-auto">
+      <div className="p-4 border-t border-border">
         <div className="text-foreground text-sm whitespace-pre-line leading-relaxed">
           {email.body}
         </div>
-        
-        {/* Context badge */}
-        <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 bg-accent/20 rounded-full">
-          <span className="text-xs font-medium text-accent-foreground">Context: {email.context}</span>
-        </div>
       </div>
 
-      {/* Footer toolbar */}
-      <div className="px-3 py-2 border-t border-border flex items-center gap-1">
-        <button className="p-2 hover:bg-muted rounded text-muted-foreground hover:text-foreground transition-colors">
-          <Reply className="w-4 h-4" />
-        </button>
-        <button className="p-2 hover:bg-muted rounded text-muted-foreground hover:text-foreground transition-colors">
-          <Forward className="w-4 h-4" />
-        </button>
-        <button className="p-2 hover:bg-muted rounded text-muted-foreground hover:text-foreground transition-colors">
-          <Star className="w-4 h-4" />
-        </button>
+      {/* Context badge */}
+      <div className="px-4 pb-4">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-muted rounded-full">
+          <span className="text-xs text-muted-foreground">Context: {email.context}</span>
+        </div>
       </div>
     </div>
   )

@@ -63,11 +63,13 @@ export const emails: Email[] = [
 interface GameState {
   currentEmail: Email | null
   userResponse: string
+  userSubject: string
   gameStarted: boolean
   gameEnded: boolean
   timeRemaining: number
   setCurrentEmail: (email: Email) => void
   setUserResponse: (response: string) => void
+  setUserSubject: (subject: string) => void
   startGame: () => void
   endGame: () => void
   resetGame: () => void
@@ -77,16 +79,18 @@ interface GameState {
 export const useGameStore = create<GameState>((set) => ({
   currentEmail: null,
   userResponse: '',
+  userSubject: '',
   gameStarted: false,
   gameEnded: false,
   timeRemaining: 60,
   setCurrentEmail: (email) => set({ currentEmail: email }),
   setUserResponse: (response) => set({ userResponse: response }),
+  setUserSubject: (subject) => set({ userSubject: subject }),
   startGame: () => {
     const randomEmail = emails[Math.floor(Math.random() * emails.length)]
-    set({ gameStarted: true, gameEnded: false, currentEmail: randomEmail, userResponse: '', timeRemaining: 60 })
+    set({ gameStarted: true, gameEnded: false, currentEmail: randomEmail, userResponse: '', userSubject: '', timeRemaining: 60 })
   },
   endGame: () => set({ gameEnded: true, gameStarted: false }),
-  resetGame: () => set({ currentEmail: null, userResponse: '', gameStarted: false, gameEnded: false, timeRemaining: 60 }),
+  resetGame: () => set({ currentEmail: null, userResponse: '', userSubject: '', gameStarted: false, gameEnded: false, timeRemaining: 60 }),
   decrementTime: () => set((state) => ({ timeRemaining: Math.max(0, state.timeRemaining - 1) }))
 }))

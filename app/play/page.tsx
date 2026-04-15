@@ -13,7 +13,9 @@ export default function PlayPage() {
   const { 
     currentEmail, 
     userResponse, 
-    setUserResponse, 
+    setUserResponse,
+    userSubject,
+    setUserSubject,
     timeRemaining,
     decrementTime,
     startGame,
@@ -101,8 +103,10 @@ export default function PlayPage() {
                   <span className="text-xs text-muted-foreground">Make it corporate</span>
                 </div>
                 <EmailComposer
-                  to={currentEmail.from}
-                  subject={currentEmail.subject}
+                  from={currentEmail.from}
+                  to={currentEmail.to}
+                  subject={userSubject}
+                  onSubjectChange={setUserSubject}
                   value={userResponse}
                   onChange={setUserResponse}
                   onSend={handleSend}
